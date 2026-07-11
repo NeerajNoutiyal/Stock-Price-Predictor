@@ -22,7 +22,7 @@ def predict():
 
     latest_price = stock["Close"].iloc[-1]
 
-    predicted_price = model.predict([[latest_price]])
+   predicted_price = model.predict([[float(latest_price)]])
 
     return render_template(
         "index.html",
