@@ -1,6 +1,7 @@
-import joblib
-import yfinance as yf
 from flask import Flask, render_template, request
+import yfinance as yf
+import joblib
+import numpy as np
 
 app = Flask(__name__)
 
@@ -13,21 +14,36 @@ def home():
 
 @app.route("/predict", methods=["POST"])
 def predict():
-    ticker = request.form["ticker"].upper()
+    ticker = request.form["ticker"].strip().upper()
 
-    stock = yf.download(ticker, period="5d")
+    try:
+        # Download latest stock data
+        stock = yf.download(ticker, period="5d", progress=False)
 
-    if stock.empty:
-        return render_template("index.html", prediction="Invalid Stock Symbol!")
+        if stock.empty:
+            return render_template(
+                "index.html",
+                prediction="❌ Invalid Stock Symbol!"
+            )
 
-    latest_price = stock["Close"].iloc[-1]
+        # Get latest closing price
+        latest_price = float(stock["Close"].iloc[-1])
 
-   predicted_price = model.predict([[float(latest_price)]])
+        # Predict
+        input_data = np.array([[latest_price]])
+        predicted_price = model.predict(input_data)[0]
 
-    return render_template(
-        "index.html",
-        prediction=f"Predicted Next Price for {ticker}: ${predicted_price[0]:.2f}"
-    )
+        return render_template(
+            "index.html",
+            prediction=f"📈 Predicted Next Price of {ticker}: ${predicted_price:.2f}"
+        )
+
+    except Exception as e:
+        return render_template(
+            "index.html",
+            prediction=f"Error: {e}"
+        )
 
 if __name__ == "__main__":
+    app.run(debug=True)
     app.run(debug=True)
