@@ -1,24 +1,22 @@
-# 📈 Stock Price Predictor
+## 📊 Example
 
-A Machine Learning project that predicts stock prices using historical stock market data.
+Input:
+AAPL
 
-## Features
+Output:
+Predicted Next Price: $215.34
 
-- Historical stock data
-- Data visualization
-- Machine Learning prediction
-- Linear Regression model
+## 📸 Screenshots
 
-## Technologies
+Add screenshots here after running the project.
 
-- Python
-- Pandas
-- NumPy
-- Scikit-Learn
-- Matplotlib
-- yfinance
+## 👨‍💻 Author
 
-## Project Structure
+Neeraj Noutiyal
+
+B.Tech CSE (AI & ML)
+
+Amrapali University
 
 ```
 Stock-Price-Predictor/
